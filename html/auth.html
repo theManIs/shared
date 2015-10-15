@@ -1,0 +1,22 @@
+<div id="cel">
+<div class="container">
+<form method="POST" id="myform" action="">
+	<div class="darkblue">
+	<p id="legend">Авторизироваться</p>
+	<div class="Labels">
+		<label for="login">Имя</label>
+		<label for="password">Пароль</label>
+	</div>
+	<div class="Inputs">
+		<input type="text" id="login" name="user"
+		maxlength="16" placeholder="не больше 16 знаков" value="<?=$this->user?>">
+		<input type="password" id="password" name="password" 
+		maxlength="16" placeholder="не больше 16 знаков" value="<?=$this->password?>">
+		<input type="hidden" name="ip" value="<?=$_SERVER['REMOTE_ADDR']?>">
+	</div><br>
+	<button type="submit" name="action" value="auth">Войти</button><br>
+	</div>
+	<p><?=$this->message?></p>
+</form>
+</div>
+</div>

@@ -1,33 +1,15 @@
 html, body {width: 100%; height: 100%}
 p {margin: 0; padding: 0}
 input[type=submit]:hover {color: darkslategray; width: 125px;}
-
-#RegNote 
-{
-	font: 10px Grandmound;
-	text-decoration: none;
-	color: rgba(72, 61, 139, 1);
-}
-
-#RegNote:hover
-{
-	text-decoration: underline;
-}
-
-#cel 
-{
-		text-align: center;
-}
-
+.small {font-size: 7px;}
+.small:hover {text-decoration: underline; cursor: pointer;}
+.balanceBox {width: 150px; border-radius: 5px 5px; background: lightskyblue;}
+#cel {text-align: center;}
 .container 
 	{display: inline-block; margin-top: 300px; max-width: 400px; transform: scale(2, 2);}
-
-#myform {
-	background: skyblue;
-	border-radius: 10px;
-	padding: 15px;
-}
-	
+#myform {background: skyblue; border-radius: 10px; padding: 15px;}
+.balanceBox p {border-bottom: solid black 1px;}
+.json:hover {cursor: pointer}
 input[type=text],
 input[type=password] {
 	border-radius: 5px;
@@ -84,11 +66,6 @@ button[name=action] {
 	width: 130px;
 	margin: 2px 0px 2px auto;
 	height: 15px;
-}
-
-#email
-{
-	font-size: 10px;
 }
 
 .Labels label

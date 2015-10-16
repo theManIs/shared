@@ -1,62 +1,35 @@
 <?php
-class C_Base
+class C_Base extends M_base
 {
-	public function getVars($box)
-	{ 
-		foreach($box as $k => $v) { 
-			$v = htmlentities($v, ENT_QUOTES | ENT_DISALLOWED, 'UTF-8');
-			$this->$k = $v;
-		}
-	}
-	
-	protected function initialize()
+	public function session()
 	{
-		for ($i = 0, $c = func_num_args(); $i < $c; $i++) {
-			$arg = func_get_arg($i);
-			if(!isset($this->$arg)) $this->$arg = null;
-		}
+		session_start();
 	}
-	
-	public function huri()
-	{	
-		if (isset($_GET['uri'])) $request = $GLOBALS['_GET']['uri'];
-		if(empty($request)) {
-			$page = '';
-		} else {
-			$meta = explode(".", $request);
-			foreach($meta as $key => $into) 
-			{
-				if($into == '') unset($meta[$key]);
-			}
-			$page = $meta;
-		}
-		$this->page = $page;
-	}
-	
-	public static function whatIsIt()
-	{
-		for($i = 1, $c = func_num_args(); $i < $c; $i++) {
-			$v = func_get_arg($i);
-			if (!empty($v)) {
-				if (func_get_arg(0) === 's' && is_string($v) && trim($v) != false) {
-					return true;
-				} elseif (func_get_arg(0) === 'a' && is_array($v)) {
-					return true;
-				}
-			}
-			return false;
-		}
-	}
-	
 	public function auth()
 	{
-		self::initialize('user', 'password', 'action');
-		$auth = new C_Auth($this->user, $this->password, $this->action);
-		$auth->control();
-		if ($auth->check === true) {
-			echo 'Очевидно, что вы теперь авторизированный пользователь.';
+		parent::initialize('user', 'password', 'action', 'token');
+		$auth = new M_auth($this->user, $this->password, $this->action, $this->token);
+		$panel = new V_auth();
+		$auth->release();
+		if ($this->action === 'quit') {
+			$auth->quit();
+		} elseif ($auth->checkToken()) {
+			$this->token = $auth->token;
+			$this->user = $auth->user;
+			return true;
 		} else {
-			//echo 'Не авторизирован';
+			if ($this->action === 'auth') {
+				if (!$auth->proof()) {
+					$panel->response($auth->message, $this->user, $this->password);
+				} else {
+					$auth->sessionToken();
+					$this->token = $auth->token;
+					return true;
+				}
+			} else {
+				$panel->response($auth->message, $this->user, $this->password);
+				return false;
+			}
 		}
 	}
 	
@@ -65,7 +38,15 @@ class C_Base
 		
 	}
 	
-
+	public function play()
+	{
+		new C_page($this->action, $this->user, $this->password, $this->token);
+	}
+	
+	public function end()
+	{
+		exit;
+	}
 }
 
 ?>

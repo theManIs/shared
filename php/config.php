@@ -20,6 +20,7 @@ define('HOST', 'localhost');
 define('DB', 'bank');
 define('USER', 'pie');
 define('PASSWORD', 'pass');
+define('ROOTDIR', '');
 
 /*print_r(date_default_timezone_get().' '.ini_get('error_log').' '.
 ini_get('error_reporting').' '.ini_get('default_charset').' '.

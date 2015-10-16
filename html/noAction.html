@@ -1,0 +1,22 @@
+<div id="cel">
+<div class="container">
+<form method="POST" id="myform" action="">
+	<div class="darkblue">
+		<p id="legend">Доступные запросы:</p>
+		<p>Баланс:
+			<a class="small" 
+				href="api.php?action=balance&user=<?=$this->user?>&token=<?=$this->token?>">
+				api.php?action=balance&user=<?=$this->user?>&token=<?=$this->token?>
+			</a>
+		</p>
+		<p>Все запросы:
+			<a class="small" href="api.php">api.php?user=<?=$this->user?>&token=<?=$this->token?></a>
+		</p>
+		<p>Покинуть личный кабинет:
+			<a class="small" href="api.php?action=quit">api.php?action=quit</a>
+		</p>
+	</div>
+	<p class="json">json здесь<p class="hide"><?=$this->json?></p></p>
+</form>
+</div>
+</div>

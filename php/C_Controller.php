@@ -4,13 +4,14 @@ final class C_Controller
 	public function __construct()
 	{
 		$base = new C_Base();
-		$base->getVars($_REQUEST);
+		$base->session();
 		$base->getVars($_COOKIE);
-		//$base->huri();
-		$base->auth();
-		//C_Autorisation::Authorize();
-		
-		//C_Page::SwitchPage(self::$human);
+		$base->getVars($_REQUEST);
+		if ($base->auth()) {
+			$base->before();
+			$base->play();
+		}
+		$base->end();
 	}
 }
 

@@ -1,5 +1,5 @@
 <?php 
-class M_sql
+class M_sql extends M_base
 {
 	private $pdo;
 	public $params = array();
@@ -17,8 +17,11 @@ class M_sql
 	
 	public function getArray()
 	{
-		$sql = $this->find . $this->from;
-		if (isset($this->where)) $sql .= $this->where . ';'; 
+		$sql = $this->select . $this->from;
+		$sql .= isset($this->where) ? $this->where : '';
+		$sql .= isset($this->order) ? $this->order : '';
+		$sql .= isset($this->limit) ? $this->limit : '';
+		$sql .= ';'; // echo $sql; print_r($this->params); exit;
 		$ask = self::taskBase($sql);
 		$ask = $ask->fetchAll();
 		return $ask;
@@ -28,7 +31,7 @@ class M_sql
 	{
 		try {
 			$ask = $this->pdo->prepare($sql);
-			if (C_base::whatIsIt('a', $this->params)) {
+			if (parent::what('a', $this->params)) {
 				for ($i = 0, $c = count($this->params); $i < $c; $i++) {
 					$ask->bindValue(($i + 1), $this->params[$i]);
 				}
@@ -48,7 +51,7 @@ class M_sql
 	
 	public function select($select)
 	{
-		$this->find = 'SELECT ' . $select;
+		$this->select = 'SELECT ' . $select;
 		return $this->marker;
 	}
 	
@@ -135,9 +138,20 @@ class M_sql
 	
 	public function getDel()
 	{
-		$sql = $this->delete . $this->where . ';';
-		self::taskBase($sql);
-		return;
+		$sql = $this->delete . $this->where . ';';		
+		return self::taskBase($sql)->rowCount();
+	}
+	
+	public function limit($limit)
+	{
+		$this->limit = ' LIMIT ' . $limit;
+		return $this->marker;
+	}
+	
+	public function order($order)
+	{
+		$this->order = ' ORDER BY ' . $order;
+		return $this->marker;
 	}
 }
 
